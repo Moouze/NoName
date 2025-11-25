@@ -22,6 +22,10 @@ public class UsersService {
     private EmailService emailService;
 
     public UserResponseDTO CadastrarUsers(UserRequestDTO dto) {
+        if (usersRepository.existsByLogin(dto.getLogin())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Esse e-mail já foi cadastrado");
+        }
         Users usersChild = dto.converterParaEntidade();
         usersChild = usersRepository.save(usersChild);
 
