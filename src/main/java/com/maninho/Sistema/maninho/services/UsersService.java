@@ -60,6 +60,11 @@ public class UsersService {
         users.setLogin(dto.getLogin());
         users.setPassword(dto.getPassword());
 
+        if (usersRepository.existsByLogin(dto.getLogin())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "E-mail já está cadastrado!!!");
+        }
+
         Users userAtt = usersRepository.save(users);
 
         return UserResponseDTO.ConverterParaDto(userAtt);
